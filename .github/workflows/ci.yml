@@ -83,6 +83,6 @@ jobs:
           # Assuming you have a deployment.yaml file which uses the latest image built
           aws eks update-kubeconfig --name amazing-outfit-1694011521 --region us-east-2
           kubectl get nodes
-          mv k8s/deployment.yaml /tmp/deployment.yaml
-          kubectl set image -f /tmp/deployment.yaml ericfiegehendevexhiringtest2=${{ steps.docker_build.outputs.image }} --local -o yaml > k8s/deployment.yaml
-          kubectl apply -f k8s/deployment.yaml
+          mv ./k8s/deployment.yaml /tmp/deployment.yaml
+          kubectl set image -f /tmp/deployment.yaml ericfiegehendevexhiringtest2=${{ steps.docker_build.outputs.image }} --local -o yaml > ./k8s/deployment.yaml
+          kubectl apply -f ./k8s/deployment.yaml
