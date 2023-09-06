@@ -80,6 +80,9 @@ jobs:
           aws-region: us-east-2
 
       - name: Deploy to EKS
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
           # Assuming you have a deployment.yaml file which uses the latest image built
           aws eks update-kubeconfig --name amazing-outfit-1694011521 --region us-east-2
@@ -88,5 +91,5 @@ jobs:
           ls -al
           mv ./k8s/deployment.yaml /tmp/deployment.yaml
           kubectl set image -f /tmp/deployment.yaml ericfiegehendevexhiringtest2=$ECR_REGISTRY/$ECR_REPOSITORY:latest --local -o yaml > ./k8s/deployment.yaml
-          # kubectl apply -f ./k8s/deployment.yaml
+          kubectl apply -f ./k8s/deployment.yaml
           cat ./k8s/deployment.yaml
