@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nodejs
+  name: nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nodejs
+    spec:
+      containers:
+      - image: 776604445685.dkr.ecr.us-east-2.amazonaws.com/ericfiegehendevexhiringtest2:af445a352190c7db6785f48e14e969a56769778b
+        name: ericfiegehendevexhiringtest2
+        ports:
+        - containerPort: 3000
+        resources: {}
+status: {}
