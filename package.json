@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha ./test.js",
-    "coverage": "nyc npm test"
+    "coverage": "nyc npm test",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
