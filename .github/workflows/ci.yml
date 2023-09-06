@@ -88,4 +88,5 @@ jobs:
           ls -al
           mv ./k8s/deployment.yaml /tmp/deployment.yaml
           kubectl set image -f /tmp/deployment.yaml ericfiegehendevexhiringtest2=$ECR_REGISTRY/$ECR_REPOSITORY:latest --local -o yaml > ./k8s/deployment.yaml
-          kubectl apply -f ./k8s/deployment.yaml
+          # kubectl apply -f ./k8s/deployment.yaml
+          cat ./k8s/deployment.yaml
