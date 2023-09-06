@@ -1,53 +1,55 @@
-# DevExHiringTest2
 
-# Desafío de Contratación DevEx
+# Eric Fiegehen Dev EX Challenge
 
-Gracias por tu interés en nuestra posición de Experiencia del Desarrollador (DevEx). Como parte del proceso de entrevista, te pedimos que completes el siguiente desafío técnico.
+Items creados en AWS en us-east-2
 
-## Objetivo del Desafío
+Recursos en AWS
+-
+ECR generado en la consola de administracion
+EKS generado con eksctl
+ -> eksctl create cluster --spot --instance-types=t3.small,t3.medium
 
-Diseña y desarrolla la aplicación utilizando un lenguaje de programación y un framework con los que estés familiarizado (de preferencia node o java). La aplicación deberá exponer al menos un endpoint que responda a una solicitud HTTP GET con un mensaje de "¡Hola Mundo!". Posteriormente, despliega esta aplicación en un cluster de Kubernetes o ECS y establece un pipeline de CI/CD. 
+La idea es poder generar un cluster utilizando spot instances para disminuir el valor del billing.
 
-Este servicio debe poder accederse desde internet.
+Se genera un usuario IAM llamado pipeline para ser utilizado en el Proceso CI/CD
 
-## Requerimientos
+Se agrega usuario IAM para administración del EKS
 
-1. Desarrollo de la Aplicación: Diseña y desarrolla la aplicación utilizando un framework que prefieras. La aplicación debe responder a una solicitud HTTP GET en un endpoint de tu elección con un mensaje de "¡Hola Mundo!".
+El pipeline consta de 3 pasos
 
-2. Despliegue de la Aplicación: Despliega la aplicación en un cluster de Kubernetes o ECS. La aplicación deberá ser accesible desde internet.
+CI -> Test de 2 pruebas unitarias
+-
+Esta pequeña app consiste en 2 endpoints
 
-3. Creación del Pipeline de CI/CD: Configura un pipeline de CI/CD que automatice el proceso de prueba y despliegue de la aplicación. El pipeline deberá incluir las siguientes etapas:
-- Pruebas: Ejecuta un conjunto de pruebas básicas para la aplicación.
-- Construcción: Construye la aplicación a una imagen docker, la cual debe subirse a un ECR privado.
-- Despliegue: Despliega la aplicación en el cluster de Kubernetes o ECS.
+/ (raiz)
 
-4. Monitoreo y Logging: Configura un sistema básico de monitoreo y logging para la aplicación.
+/earth 
 
-5. Documentación: Crea una documentación que explique cómo desplegar y operar la aplicación, cómo funciona el pipeline de CI/CD y cómo monitorear la aplicación.
+Las pryebas unitarias constan de verificar si la app responde correctamente un HTTP GET en los endpoints mencionados anteriormente.
 
-## Entrega
+Docker build y push al ECR
+-
+CD : Deploy en EKS editando un simple archivo deployment.yaml
 
-1. Haz un fork del repositorio GitHub actual.
-2. Clona el repositorio a tu máquina local.
-3. Crea una nueva rama con tu nombre en tu versión local del repositorio, donde podrás almacenar todos los archivos relacionados con el proyecto.
-4. Realiza los cambios necesarios y haz commit de tus cambios en tu rama local.
-5. Haz push de la rama a tu repositorio GitHub forked.
-6. Comparte tu repositorio por correo.
-7. Reunión de revisión.
-- ~~Desde tu repositorio GitHub, crea un Pull Request dirigido al repositorio original. Asegúrate de seleccionar la rama correcta en la que trabajaste y proporciona una descripción detallada de los cambios y del proyecto~~
+Endpoints
+-
+Puede consumir la app en la siguiente URL 
 
-### Plazo
+http://a5975ac8bdeed4125be05160dbae291b-1652162827.us-east-2.elb.amazonaws.com
 
-Te pedimos que completes el desafío dentro de una semana después de haberlo recibido. Sin embargo, entendemos que puedes tener otras responsabilidades y compromisos. Si necesitas más tiempo, por favor, háznoslo saber.
+http://a5975ac8bdeed4125be05160dbae291b-1652162827.us-east-2.elb.amazonaws.com/earth
 
-### Evaluación
+Monitoreo
+-
+Se instalo el agente de cloudwatch en el cluster siguiendo la documentación oficial de AWS
+https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup 
 
-Evaluaremos tu desafío basándonos en los siguientes criterios:
+https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-metrics.html
 
-- Funcionalidad de la aplicación y del flujo de trabajo de CI/CD
-- Cobertura y calidad de las pruebas
-- Claridad y utilidad de la documentación
-- Elección y uso de herramientas y tecnologías
-- Calidad del código
+Mejoras a futuro
+- 
+Agregar Lint al código y validación de dependencias.
 
-Gracias nuevamente por tu interés en nuestra posición de DevEx. ¡Esperamos ver tu solución al desafío!
+Monitoreo mas preciso de los recursos, esto enfocado en optimizar costos de cloudwatch.
+
+Realizar un CD mas inteligente a la hora de seleccionar una estrategia de release.
