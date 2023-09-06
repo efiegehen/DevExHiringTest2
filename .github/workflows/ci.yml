@@ -80,5 +80,5 @@ jobs:
       - name: Deploy to EKS
         run: |
           # Assuming you have a deployment.yaml file which uses the latest image built
-          aws eks update-kubeconfig --cluster amazing-outfit-1694011521 --region us-east-2
+          aws eks update-kubeconfig --name amazing-outfit-1694011521 --region us-east-2
           kubectl get nodes
