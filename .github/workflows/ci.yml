@@ -52,7 +52,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: latest
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -87,5 +87,5 @@ jobs:
           pwd
           ls -al
           mv ./k8s/deployment.yaml /tmp/deployment.yaml
-          kubectl set image -f /tmp/deployment.yaml ericfiegehendevexhiringtest2=${{ steps.build-and-push.outputs.image }} --local -o yaml > ./k8s/deployment.yaml
+          kubectl set image -f /tmp/deployment.yaml ericfiegehendevexhiringtest2=$ECR_REGISTRY/$ECR_REPOSITORY:latest --local -o yaml > ./k8s/deployment.yaml
           kubectl apply -f ./k8s/deployment.yaml
