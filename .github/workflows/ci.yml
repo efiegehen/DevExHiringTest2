@@ -55,6 +55,7 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
   deploy:
     name: Deploy to EKS
@@ -82,3 +83,6 @@ jobs:
           # Assuming you have a deployment.yaml file which uses the latest image built
           aws eks update-kubeconfig --name amazing-outfit-1694011521 --region us-east-2
           kubectl get nodes
+          mv k8s/deployment.yaml /tmp/deployment.yaml
+          kubectl set image -f /tmp/deployment.yaml ericfiegehendevexhiringtest2=${{ steps.docker_build.outputs.image }} --local -o yaml > k8s/deployment.yaml
+          kubectl apply -f k8s/deployment.yaml
